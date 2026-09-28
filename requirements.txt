@@ -1,0 +1,9 @@
+# Python dependencies for the ROS pipeline, analysis, and tests.
+# ROS 2 itself is installed through Ubuntu/rosdep, not pip.
+-r src/contact_audio_perception/requirements.txt
+numpy
+scipy
+matplotlib
+scikit-learn
+pytest
+colcon-common-extensions

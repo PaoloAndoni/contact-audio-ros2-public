@@ -1,0 +1,370 @@
+<title>Spectrogram-First Results</title>
+<style>
+  :root{
+    --paper:#f4f7f8; --surface:#ffffff; --surface-2:#e9eef1;
+    --ink:#0f151b; --muted:#55616d; --faint:#7d8895;
+    --line:#d5dee3; --line-soft:#e4ebee;
+    --accent:#0e8794; --accent-deep:#0a5f69; --accent-soft:#dff0f2;
+    --risk:#a8481f; --risk-soft:#fbe9e1;
+    --ok:#15704a; --ok-soft:#dff0e6;
+    --hold:#8d6410; --hold-soft:#f7eed6;
+    --shadow:0 1px 2px rgba(15,21,27,.05), 0 8px 22px rgba(15,21,27,.05);
+    --serif:ui-serif,Georgia,"Iowan Old Style","Source Serif Pro",Cambria,serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#0a0e12; --surface:#131a20; --surface-2:#1a232b;
+      --ink:#e7edf1; --muted:#95a1ad; --faint:#7a8794;
+      --line:#26313a; --line-soft:#1e272f;
+      --accent:#3cc0cf; --accent-deep:#7fdce6; --accent-soft:#0e2f36;
+      --risk:#e8916a; --risk-soft:#33190f;
+      --ok:#4cc48c; --ok-soft:#0f2a1e;
+      --hold:#d9a94a; --hold-soft:#2b2211;
+      --shadow:0 1px 2px rgba(0,0,0,.45), 0 12px 32px rgba(0,0,0,.4);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0a0e12; --surface:#131a20; --surface-2:#1a232b;
+    --ink:#e7edf1; --muted:#95a1ad; --faint:#7a8794;
+    --line:#26313a; --line-soft:#1e272f;
+    --accent:#3cc0cf; --accent-deep:#7fdce6; --accent-soft:#0e2f36;
+    --risk:#e8916a; --risk-soft:#33190f;
+    --ok:#4cc48c; --ok-soft:#0f2a1e;
+    --hold:#d9a94a; --hold-soft:#2b2211;
+    --shadow:0 1px 2px rgba(0,0,0,.45), 0 12px 32px rgba(0,0,0,.4);
+  }
+
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans);
+    line-height:1.58; -webkit-font-smoothing:antialiased;
+    -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .wrap{ max-width:840px; margin:0 auto; padding:clamp(1.5rem,4vw,3rem) clamp(1rem,4vw,2rem) 4rem; }
+
+  .eyebrow{ font-family:var(--mono); font-size:.68rem; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--accent-deep); margin:0 0 .8rem; }
+  h1{ font-family:var(--serif); font-weight:600; font-size:clamp(1.9rem,5vw,2.6rem);
+    line-height:1.08; letter-spacing:-.015em; margin:0 0 .7rem; text-wrap:balance; }
+  .lede{ color:var(--muted); max-width:64ch; margin:0 0 1.6rem; font-size:1.01rem; }
+  .lede strong{ color:var(--ink); font-weight:600; }
+  h2{ font-family:var(--serif); font-weight:600; font-size:1.3rem; letter-spacing:-.01em;
+    margin:2.6rem 0 .6rem; text-wrap:balance; }
+  h3{ font-size:.93rem; margin:1.5rem 0 .5rem; }
+  p{ margin:0 0 .85rem; max-width:64ch; } p:last-child{ margin-bottom:0; }
+  code{ font-family:var(--mono); font-size:.87em; color:var(--accent-deep);
+    background:var(--accent-soft); border-radius:4px; padding:.06em .32em; }
+  pre{ font-family:var(--mono); font-size:.76rem; line-height:1.6; margin:.7rem 0 0;
+    background:var(--surface-2); border:1px solid var(--line); border-radius:9px;
+    padding:.8rem .95rem; overflow-x:auto; color:var(--ink); }
+  pre .c{ color:var(--faint); }
+
+  .facts{ display:flex; flex-wrap:wrap; gap:0; border:1px solid var(--line);
+    border-radius:10px; background:var(--surface); overflow:hidden; margin-bottom:2rem; }
+  .fact{ flex:1 1 140px; padding:.75rem .9rem; border-right:1px solid var(--line-soft); }
+  .fact:last-child{ border-right:0; }
+  .fact dt{ font-family:var(--mono); font-size:.61rem; letter-spacing:.11em; text-transform:uppercase;
+    color:var(--faint); margin:0 0 .2rem; }
+  .fact dd{ margin:0; font-size:.9rem; font-weight:600; font-variant-numeric:tabular-nums; }
+
+  .tblwrap{ overflow-x:auto; border:1px solid var(--line-soft); border-radius:9px; margin-top:.7rem; }
+  table{ width:100%; border-collapse:collapse; font-size:.83rem; }
+  th,td{ text-align:left; padding:.5rem .68rem; border-bottom:1px solid var(--line-soft); vertical-align:top; }
+  tbody tr:last-child td{ border-bottom:0; }
+  thead th{ font-family:var(--mono); font-size:.59rem; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--faint); background:var(--surface-2); border-bottom:1px solid var(--line); }
+  td.num{ font-variant-numeric:tabular-nums; white-space:nowrap; text-align:right; }
+  td.mono{ font-family:var(--mono); font-size:.78rem; }
+  tr.best td{ background:var(--ok-soft); }
+
+  .flag{ border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:9px;
+    background:var(--surface); padding:.85rem 1.05rem; margin:1.3rem 0; box-shadow:var(--shadow); }
+  .flag.warn{ border-left-color:var(--risk); }
+  .flag.hold{ border-left-color:var(--hold); }
+  .flag .tag{ font-family:var(--mono); font-size:.62rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--accent-deep); display:block; margin-bottom:.35rem; }
+  .flag.warn .tag{ color:var(--risk); }
+  .flag.hold .tag{ color:var(--hold); }
+  .flag p{ font-size:.9rem; }
+
+  .graph{ display:flex; flex-direction:column; align-items:center; gap:.3rem;
+    border:1px solid var(--line); border-radius:11px; background:var(--surface);
+    padding:1.1rem; box-shadow:var(--shadow); margin-top:.8rem; }
+  .node{ font-family:var(--mono); font-size:.8rem; font-weight:600; padding:.5rem .9rem;
+    border:1.5px solid var(--accent); background:var(--accent-soft);
+    color:var(--accent-deep); border-radius:8px; text-align:center; min-width:min(280px,90%); }
+  .wire{ font-family:var(--mono); font-size:.7rem; color:var(--muted); text-align:center; }
+  .wire b{ color:var(--accent-deep); }
+
+  .pill{ font-family:var(--mono); font-size:.62rem; letter-spacing:.06em; text-transform:uppercase;
+    border-radius:4px; padding:.12rem .42rem; white-space:nowrap; display:inline-block; }
+  .pill.ok{ color:var(--ok); background:var(--ok-soft); border:1px solid var(--ok); }
+  .pill.no{ color:var(--risk); background:var(--risk-soft); border:1px solid var(--risk); }
+  .pill.pend{ color:var(--hold); background:var(--hold-soft); border:1px solid var(--hold); }
+
+  ul{ margin:.6rem 0 .9rem; padding-left:1.15rem; max-width:64ch; }
+  li{ margin-bottom:.35rem; font-size:.91rem; }
+  li::marker{ color:var(--accent); }
+  hr{ border:0; border-top:1px solid var(--line); margin:2.4rem 0; }
+  a{ color:var(--accent-deep); }
+  a:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; border-radius:3px; }
+  @media (prefers-reduced-motion:reduce){ *{ animation:none !important; transition:none !important; } }
+  @media print{
+    @page{ margin:14mm; size:A4; }
+    .wrap{ max-width:none; padding:0; }
+    .flag,.facts,.graph,pre{ box-shadow:none; break-inside:avoid; }
+    h2{ break-after:avoid; }
+    .tblwrap{ break-inside:avoid; }
+  }
+</style>
+
+<div class="wrap">
+
+  <p class="eyebrow">ROS 2 · contact_audio_perception · results</p>
+  <h1>Spectrogram-First Results</h1>
+  <p class="lede">
+    All three review notes are implemented and measured. The four-node chain is now
+    <strong>two nodes</strong>, the mel filterbank is a published ROS contract at
+    <strong>15 Hz</strong>, and <strong>four feature extractors</strong> are compared on
+    byte-identical input. One acceptance item is deliberately left open: microphone
+    timestamps on this backend are <strong>not fit for robot synchronisation</strong>.
+  </p>
+
+  <dl class="facts">
+    <div class="fact"><dt>Nodes</dt><dd>4 → 2</dd></div>
+    <div class="fact"><dt>Spectrogram</dt><dd>98 × 128 @ 15 Hz</dd></div>
+    <div class="fact"><dt>Best per-window</dt><dd>106/108 (cnn)</dd></div>
+    <div class="fact"><dt>Live classification</dt><dd>15.0 Hz</dd></div>
+    <div class="fact"><dt>Sync status</dt><dd>Pending</dd></div>
+  </dl>
+
+  <h2>The three notes, and what was built</h2>
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>Review note</th><th>Implemented</th><th>Evidence</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>1.</strong> Compress the first two nodes into one DAQ; buffer x seconds; spectrogram at higher frequency; Foxglove 15 Hz</td>
+          <td><code>audio_daq_node</code> — replaces capture, window <em>and</em> wav_player via <code>source: mic|wav</code>; rolling buffer; filterbank + <code>sensor_msgs/Image</code> at 15 Hz</td>
+          <td class="mono">15.00 Hz, std dev 2.5 ms, zero late ticks</td>
+        </tr>
+        <tr>
+          <td><strong>2.</strong> Second node subscribing to the spectrogram, classifying live</td>
+          <td><code>contact_ml_node</code> — encoder behind a swappable interface, best-effort depth 1, identity-checked model bundle</td>
+          <td class="mono">parity gates 1–4 all bit-exact (0.0)</td>
+        </tr>
+        <tr>
+          <td><strong>3.</strong> Try different encoders</td>
+          <td>Four extractors on identical published features, leave-one-trial-out, fold-isolated</td>
+          <td class="mono">table below; <code>eval_runs/full/results.json</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>The pipeline now</h2>
+  <div class="graph">
+    <div class="node">audio_daq_node<br><span style="font-weight:400;font-size:.72rem">mic or WAV → rolling 1 s buffer → filterbank</span></div>
+    <div class="wire">▼ <b>/audio/spectrogram</b> · 98 × 128 float32 · ~50 KB · 15 Hz</div>
+    <div class="wire">▼ <b>/audio/spectrogram_image</b> · rgb8 → Foxglove</div>
+    <div class="node">contact_ml_node<br><span style="font-weight:400;font-size:.72rem">encoder → cosine nearest-centroid</span></div>
+    <div class="wire">▼ <b>/audio/contact_prediction</b> · label + confidence + start_sample_index</div>
+  </div>
+  <p style="margin-top:1rem">Every message carries the capture time of its buffer's first sample,
+    propagated unchanged. <code>ContactPrediction</code> also carries
+    <code>start_sample_index</code>, so a prediction can be traced to the exact window that
+    produced it across independently timed runs.</p>
+
+  <h2>Spectrogram contract</h2>
+  <p>The filterbank is published <strong>unpadded and unnormalised</strong>. AST pads to 1024
+    rows and then normalises, so its padded rows arrive as a uniform <strong>0.4670</strong> —
+    <strong>90.4%</strong> of every tensor it sees. Publishing that padded form would put 524 KB
+    on the wire per message to carry the same 98 rows.</p>
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>Parameter</th><th>Value</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>shape</td><td class="mono">98 × 128, time-major</td><td><code>1 + ⌊(16000−400)/160⌋ = 98</code></td></tr>
+        <tr><td>analysis rate</td><td class="mono">16 000 Hz</td><td>what AST expects; resampled once, in the DAQ</td></tr>
+        <tr><td>source rate</td><td class="mono">device's own</td><td>44 100 (WSLg) or 48 000 (dataset) — never hardcoded</td></tr>
+        <tr><td>window / hop</td><td class="mono">25 ms / 10 ms</td><td>kaldi convention AST inherits</td></tr>
+        <tr><td>mel bins</td><td class="mono">128</td><td>AST's native resolution</td></tr>
+        <tr><td>buffer</td><td class="mono">1.0 s</td><td>93% overlap between consecutive messages at 15 Hz</td></tr>
+        <tr><td>message size</td><td class="mono">50 KB → 0.75 MB/s</td><td>vs 524 KB → 7.9 MB/s if padded</td></tr>
+        <tr><td>pinned options</td><td class="mono">25</td><td>AST passes 3 and inherits 22 torchaudio defaults; all are pinned and hashed</td></tr>
+        <tr><td>preprocessing_id</td><td class="mono">kaldi_fbank_v1-80f8c3d43fa2</td><td>a consumer refuses features its model was not trained on</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Cost of running it</h3>
+  <p>The DAQ node pins torch to a single thread. Left at torch's default it spent
+    <strong>18.19 ms of CPU per 2.99 ms of work</strong> — six cores to do one core's job —
+    because a 98 × 128 filterbank is far too small to parallelise and the worker threads
+    spin-wait between calls. Single-threaded is both faster in wall time (2.18 ms) and about
+    five times cheaper. Measured in the running node: <strong>341% → 40% CPU</strong>. This
+    matters on the robot, where the DAQ must not compete with the control stack.</p>
+  <div class="flag hold">
+    <span class="tag">Environment, not the pipeline</span>
+    <p>On this laptop the node reports a ~1.1 s late publish tick every <strong>33.32 s</strong>,
+      exactly periodic and <em>phase-locked across process restarts</em>, with or without image
+      publishing. Something outside ROS stalls the WSL VM on a fixed cycle; the node's late-tick
+      instrumentation is correctly reporting someone else's stall rather than its own. Re-measure
+      on the lab machine before drawing conclusions from it.</p>
+  </div>
+
+  <h2>Four feature extractors</h2>
+  <p>Leave-one-trial-out over 12 clips / 108 windows / 4 folds, all consuming the same published
+    filterbank. Latency is measured in isolation; the live rate is what the full two-node
+    pipeline sustained on this CPU.</p>
+  <div class="tblwrap">
+    <table>
+      <thead>
+        <tr><th>Extractor</th><th>Role</th><th class="num">Per-clip</th><th class="num">Per-window</th>
+        <th class="num">ms/window</th><th class="num">Live rate</th><th class="num">Parameters</th><th class="num">Weights</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="mono">ast</td><td>pretrained neural</td>
+          <td class="num">12/12</td><td class="num">99/108</td><td class="num">1148.8</td>
+          <td class="num">~0.6 Hz</td><td class="num">86,187,264</td><td class="num">≈344.7 MB</td>
+        </tr>
+        <tr>
+          <td class="mono">ast_random</td><td>pretraining control</td>
+          <td class="num">10/12</td><td class="num">89/108</td><td class="num">1180.4</td>
+          <td class="num">—</td><td class="num">86,187,264</td><td class="num">344.8 MB</td>
+        </tr>
+        <tr class="best">
+          <td class="mono">cnn</td><td>learned neural</td>
+          <td class="num">12/12</td><td class="num">106/108</td><td class="num">1.6</td>
+          <td class="num">15.0 Hz</td><td class="num">32,227</td><td class="num">129 KB</td>
+        </tr>
+        <tr>
+          <td class="mono">melstats</td><td>non-neural baseline</td>
+          <td class="num">12/12</td><td class="num">101/108</td><td class="num">0.6</td>
+          <td class="num">15.0 Hz</td><td class="num">0</td><td class="num">none</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:.8rem;font-size:.86rem;color:var(--muted)">AST's weights are the Hugging
+    Face checkpoint, external to the bundle — <strong>≈344.7 MB in fp32</strong>, not zero. The
+    bundle stores only the pinned checkpoint id and commit revision.</p>
+
+  <h3>What these numbers do and do not show</h3>
+  <ul>
+    <li><strong>Pretraining contributes.</strong> Pretrained AST beats the random control by
+      <strong>9.3 percentage points per window</strong> at identical compute cost — evidence, for
+      this dataset and <em>one fixed seed</em>, that AudioSet pretraining is doing real work rather
+      than the architecture alone.</li>
+    <li><strong>The CNN wins on both axes here</strong> — best per-window result while sustaining
+      15 Hz — but it is trained on ~81 windows from 9 clips per fold and will be overfitting.</li>
+    <li><strong>Mel statistics beat AST per window</strong> (101 vs 99) at roughly 1900× lower
+      isolated latency, with zero parameters.</li>
+    <li><strong>Per-clip accuracy is saturated</strong> at 12/12 for everything except the control,
+      so it cannot distinguish AST, CNN and mel statistics. Per-window is the only discriminating
+      figure.</li>
+    <li><strong>This is 12 clips with 50%-overlapping windows.</strong> The 108 windows are not 108
+      independent samples. These results demonstrate performance on a small, well-separated
+      dataset — not general superiority over AST.</li>
+  </ul>
+
+  <h3>Fold isolation</h3>
+  <p>Fixed extractors (<code>ast</code>, <code>ast_random</code>, <code>melstats</code>) cannot
+    learn from this dataset, so each window is encoded once and split per fold. The
+    <strong>CNN is retrained inside every fold</strong> on that fold's training clips only —
+    training it once over all windows and then cross-validating the centroids would leak the
+    held-out trial into the encoder. Centroids always come from the fold's training clips.
+    Fold artifacts are written to <code>eval_runs/</code>; three independent mechanisms stop one
+    reaching the installed package.</p>
+
+  <hr>
+
+  <h2>Timing: classification yes, synchronisation no</h2>
+  <div class="flag warn">
+    <span class="tag">Open acceptance item</span>
+    <p><strong>WSLg supports live demonstration and 15 Hz inference.</strong><br>
+       <strong>WSLg microphone timestamps are unsuitable for robot-state synchronisation.</strong><br>
+       <strong>Native lab hardware must pass the timing gate before recording synchronised bags.</strong></p>
+  </div>
+  <p>The DAQ maps PortAudio's <code>inputBufferAdcTime</code> onto the ROS clock per callback, so a
+    window stamp means when the sound reached the ADC. That fixed a real defect: window age went
+    from <strong>−613 ms</strong> (stamps in the future) to a median of <strong>1047 ms</strong>
+    against a 1000 ms buffer.</p>
+  <p>What remains is the backend, not the derivation. Across 70-second microphone runs the WSLg
+    PulseAudio bridge disagreed with its own sample counter — and did so <em>differently each
+    run</em>:</p>
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>Criterion</th><th class="num">WAV control</th><th class="num">WSLg microphone</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td>no future window stamps</td><td class="num">0</td><td class="num">0</td><td><span class="pill ok">pass</span></td></tr>
+        <tr><td>stamps strictly monotonic</td><td class="num">0 bad</td><td class="num">0 bad</td><td><span class="pill ok">pass</span></td></tr>
+        <tr><td>window age near 1 s</td><td class="num">989 ms</td><td class="num">1047 ms</td><td><span class="pill ok">pass</span></td></tr>
+        <tr><td>stamp Δ matches sample-index Δ</td><td class="num">0.000 ms</td><td class="num">5.8 – 2275 ms</td><td><span class="pill no">fail</span></td></tr>
+        <tr><td>sample-clock drift</td><td class="num">n/a</td><td class="num">−25 to −354 ppm</td><td><span class="pill no">fail</span></td></tr>
+        <tr><td>capture discontinuities &gt; 5 ms</td><td class="num">n/a</td><td class="num">2 – 683</td><td><span class="pill no">fail</span></td></tr>
+        <tr><td>PortAudio status events</td><td class="num">n/a</td><td class="num">0</td><td><span class="pill ok">pass</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p style="margin-top:.8rem">In the worst run the median callback interval was <strong>25.70 ms</strong>
+    where 1024 frames at 44 100 Hz implies <strong>23.22 ms</strong> — an 11% disagreement, with
+    683 jumps up to 2473 ms. <strong>PortAudio reported zero overflows throughout</strong>: the
+    drops are invisible to the backend, which is why the gate measures them independently.</p>
+  <p>The identical gate against the WAV source passes every applicable criterion with a worst
+    stamp-versus-index delta of <strong>0.000 ms</strong>. The derivation and the measurement
+    harness are therefore sound; the failure is specific to the WSLg microphone path.</p>
+  <div class="flag hold">
+    <span class="tag">Consequence</span>
+    <p>Bags recorded through WSLg cannot be aligned to <code>/joint_states</code>, which is the whole
+      point of the timestamp discipline. Run <code>verify_sprint.sh --mic</code> on the lab machine
+      and require it to pass before any synchronised data collection. Do not relax
+      <code>--max-drift-ppm</code> or <code>--max-discontinuities</code> to make a known-bad backend
+      pass; set them from the synchronisation requirement.</p>
+  </div>
+
+  <h2>Reproducing this</h2>
+<pre><span class="c"># everything below runs offline, no microphone needed</span>
+cd ~/audio-manipulation/ros2_ws
+./scripts/verify_sprint.sh              <span class="c"># build, tests, bundles, gates 1-4, WAV timing, live 15 Hz</span>
+./scripts/verify_sprint.sh --full-eval  <span class="c"># also recompute the 4-extractor cross-validation</span>
+./scripts/verify_sprint.sh --mic        <span class="c"># synchronisation gate - run this on the lab machine</span>
+
+<span class="c"># individual pieces</span>
+python3 scripts/verify_block2.py                    <span class="c"># AST parity gates 1-3</span>
+python3 scripts/evaluate_encoders.py --out eval_runs/x
+python3 scripts/characterize_timing.py 70 --source mic --csv /tmp/daq_timing.csv
+ros2 launch contact_audio_perception two_node.launch.py source:=mic</pre>
+
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>Commit</th><th>Contents</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">263fc4b</td><td>Block 1 — <code>audio_daq_node</code></td></tr>
+        <tr><td class="mono">8de4880</td><td>Block 2 — <code>contact_ml_node</code>, parity gates 1–4</td></tr>
+        <tr><td class="mono">372dfda</td><td>Block 2 hardening — model guards, WAV replay drift</td></tr>
+        <tr><td class="mono">4016267</td><td>Block 3 foundation — identity-fingerprinted bundles</td></tr>
+        <tr><td class="mono">43f8115</td><td>Foundation hardening — pinned revision, fold isolation</td></tr>
+        <tr><td class="mono">b71326a</td><td>Block 3 — four extractors compared</td></tr>
+        <tr><td class="mono">256694a</td><td>ADC-time capture stamps + timing gate</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>Status</h2>
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>Item</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Note 1 — DAQ node, 15 Hz spectrogram, Foxglove image topic</td><td><span class="pill ok">done</span></td></tr>
+        <tr><td>Note 2 — single ML node, parity with the four-node pipeline</td><td><span class="pill ok">done</span></td></tr>
+        <tr><td>Note 3 — four extractors compared, fold-isolated</td><td><span class="pill ok">done</span></td></tr>
+        <tr><td>Foxglove image verified live in Foxglove — 15.1 Hz over <code>foxglove_bridge</code></td><td><span class="pill ok">done</span></td></tr>
+        <tr><td>Native lab microphone passes the timing gate</td><td><span class="pill pend">pending</span></td></tr>
+        <tr><td>Synchronised robot bags</td><td><span class="pill no">blocked on the above</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>

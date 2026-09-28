@@ -1,0 +1,7 @@
+# Begin a labeled dataset recording run.
+string run_id       # optional; empty -> logger auto-generates a timestamp id
+string label        # optional; overrides the current label if non-empty
+---
+bool success
+string run_id       # the id actually used
+string message

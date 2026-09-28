@@ -1,0 +1,5 @@
+# Additional packages for reading the published ManiWAV archive.
+# The extraction script uses the Zarr 2 ZipStore API.
+zarr>=2.18,<3
+numcodecs<0.16
+imagecodecs

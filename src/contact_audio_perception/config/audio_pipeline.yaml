@@ -1,0 +1,94 @@
+# Central config for the contact-audio pipeline.
+#
+# CURRENT (two-node) pipeline:
+#   audio_daq_node -> /audio/spectrogram -> contact_ml_node
+# LEGACY (four-node) pipeline, kept until parity + live equivalence are proven:
+#   wav_player / audio_capture -> audio_window -> ast_encoder -> contact_classifier
+
+audio_daq_node:
+  ros__parameters:
+    source: mic             # 'mic' (live) or 'wav' (reproducible offline replay)
+    device: ""              # '' = default input; or an index/name (list_devices:=true)
+    wav_path: ""            # REQUIRED when source is 'wav'
+    loop: false
+    shutdown_when_done: true
+
+    source_sample_rate: 0   # 0 = take the device's own rate (WSLg RDPSource is 44100;
+                            # the recorded dataset is 48000 - never hardcode one)
+    channels: 0             # 0 = ask the device
+    blocksize: 1024         # capture granularity; the buffer advances in blocksize steps
+    wav_realtime: true      # true = replay at real time (demo); false = advance exactly
+                            # one hop per publish, giving reproducible window indices
+    wav_feed_period_sec: 0.02   # real-time replay granularity
+    buffer_sec: 1.0         # rolling waveform buffer that each spectrogram covers
+    publish_rate_hz: 15.0   # ROS publish rate; NOT the filterbank frame shift
+
+    analysis_sample_rate: 16000   # what the filterbank is computed at (AST needs 16k)
+    n_mels: 128                   # AST's native resolution
+    frame_length_ms: 25.0         # AST convention
+    frame_shift_ms: 10.0          # -> 98 frames for a 1.0 s buffer
+    peak_normalise: true          # matches the legacy chain; peak_gain is published
+    legacy_int16_downmix: true    # bit-compatible with audio_window_node (see spectrogram.py)
+
+    topic: /audio/spectrogram
+    image_topic: /audio/spectrogram_image
+    publish_image: true
+    image_min: -15.0        # fixed dB range, so Foxglove colours do not flicker
+    image_max: 5.0
+    frame_id: contact_mic
+
+contact_ml_node:
+  ros__parameters:
+    input_topic: /audio/spectrogram
+    output_topic: /audio/contact_prediction
+    embedding_topic: /audio/embedding   # encoder output, for a policy; without it the
+                                        # argmax on output_topic is all that survives
+    publish_embedding: true
+    model_path: ""            # model BUNDLE DIRECTORY; the launch file supplies one
+    encoder_type: ""          # '' = use whatever the model was trained with
+    # -999.0 means "use the value stored in the model bundle". Set a real number
+    # only to deliberately override it; the node logs the deviation.
+    unknown_threshold: -999.0
+    temperature: -999.0
+    allow_legacy_model: false # pre-v3 models cannot be checked; diagnosis only
+    stats_period_sec: 10.0    # how often to report the rate actually achieved
+
+audio_capture_node:
+  ros__parameters:
+    device: ""            # '' = default input; or an index/name (list_devices:=true to list)
+    sample_rate: 48000
+    channels: 1
+    chunk_size: 2048
+    topic: /audio/raw_chunk
+    frame_id: contact_mic
+
+wav_player_node:
+  ros__parameters:
+    wav_path: ""            # REQUIRED: 16-bit PCM WAV to replay (override on the CLI)
+    chunk_size: 2048        # frames per published AudioChunk
+    loop: false             # replay forever when true
+    realtime: true          # pace at real-time; false = publish as fast as the timer allows
+    topic: /audio/raw_chunk
+    frame_id: contact_mic
+
+audio_window_node:
+  ros__parameters:
+    input_topic: /audio/raw_chunk
+    output_topic: /audio/window
+    window_sec: 1.0         # analysis window length (seconds)
+    hop_sec: 0.5            # advance between windows; overlap = window_sec - hop_sec
+    mono: true             # down-mix multi-channel input to mono
+
+ast_encoder_node:
+  ros__parameters:
+    input_topic: /audio/window
+    output_topic: /audio/ast_embedding
+    model_id: MIT/ast-finetuned-audioset-10-10-0.4593
+
+contact_classifier_node:
+  ros__parameters:
+    input_topic: /audio/ast_embedding
+    output_topic: /audio/contact_prediction
+    model_path: ""          # REQUIRED: centroids .npz from train_centroids.py
+    unknown_threshold: 0.0  # label 'unknown' if best cosine similarity is below this
+    temperature: 0.1        # softmax temperature for the reported probabilities

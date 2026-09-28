@@ -1,0 +1,254 @@
+{
+  "cnn": {
+    "silhouette_action": 0.05657503665324205,
+    "silhouette_clip": -0.12950717245268975,
+    "loco_window_acc": 0.41762452107279696,
+    "loco_clip_acc": 0.5,
+    "perm_mean": 0.3337777777777778,
+    "perm_p95": 0.5555555555555556,
+    "perm_max": 0.7222222222222222,
+    "p_value": 0.1635,
+    "per_clip": {
+      "put_sizes_noiseoff_01": {
+        "pred": "put_sizes",
+        "true": "put_sizes"
+      },
+      "put_sizes_noiseoff_02": {
+        "pred": "put_sizes",
+        "true": "put_sizes"
+      },
+      "put_sizes_noiseoff_03": {
+        "pred": "put_sizes",
+        "true": "put_sizes"
+      },
+      "put_sizes_noiseon_01": {
+        "pred": "put_sizes",
+        "true": "put_sizes"
+      },
+      "put_sizes_noiseon_02": {
+        "pred": "put_sizes",
+        "true": "put_sizes"
+      },
+      "put_sizes_noiseon_03": {
+        "pred": "put_sizes",
+        "true": "put_sizes"
+      },
+      "red_green_noiseoff_01": {
+        "pred": "red_green",
+        "true": "red_green"
+      },
+      "red_green_noiseoff_02": {
+        "pred": "red_green",
+        "true": "red_green"
+      },
+      "red_green_noiseoff_03": {
+        "pred": "red_green",
+        "true": "red_green"
+      },
+      "red_green_noiseon_01": {
+        "pred": "put_sizes",
+        "true": "red_green"
+      },
+      "red_green_noiseon_02": {
+        "pred": "put_sizes",
+        "true": "red_green"
+      },
+      "red_green_noiseon_03": {
+        "pred": "put_sizes",
+        "true": "red_green"
+      },
+      "table_cleaning_noiseoff_01": {
+        "pred": "put_sizes",
+        "true": "table_cleaning"
+      },
+      "table_cleaning_noiseoff_02": {
+        "pred": "red_green",
+        "true": "table_cleaning"
+      },
+      "table_cleaning_noiseoff_03": {
+        "pred": "red_green",
+        "true": "table_cleaning"
+      },
+      "table_cleaning_noiseon_01": {
+        "pred": "put_sizes",
+        "true": "table_cleaning"
+      },
+      "table_cleaning_noiseon_02": {
+        "pred": "red_green",
+        "true": "table_cleaning"
+      },
+      "table_cleaning_noiseon_03": {
+        "pred": "put_sizes",
+        "true": "table_cleaning"
+      }
+    }
+  },
+  "melstats": {
+    "silhouette_action": 0.047488981967273046,
+    "silhouette_clip": -0.06044752923584107,
+    "loco_window_acc": 0.4827586206896552,
+    "loco_clip_acc": 0.5555555555555556,
+    "perm_mean": 0.32702777777777775,
+    "perm_p95": 0.5555555555555556,
+    "perm_max": 0.7777777777777778,
+    "p_value": 0.09,
+    "per_clip": {
+      "put_sizes_noiseoff_01": {
+        "pred": "put_sizes",
+        "true": "put_sizes"
+      },
+      "put_sizes_noiseoff_02": {
+        "pred": "put_sizes",
+        "true": "put_sizes"
+      },
+      "put_sizes_noiseoff_03": {
+        "pred": "table_cleaning",
+        "true": "put_sizes"
+      },
+      "put_sizes_noiseon_01": {
+        "pred": "red_green",
+        "true": "put_sizes"
+      },
+      "put_sizes_noiseon_02": {
+        "pred": "red_green",
+        "true": "put_sizes"
+      },
+      "put_sizes_noiseon_03": {
+        "pred": "red_green",
+        "true": "put_sizes"
+      },
+      "red_green_noiseoff_01": {
+        "pred": "put_sizes",
+        "true": "red_green"
+      },
+      "red_green_noiseoff_02": {
+        "pred": "put_sizes",
+        "true": "red_green"
+      },
+      "red_green_noiseoff_03": {
+        "pred": "put_sizes",
+        "true": "red_green"
+      },
+      "red_green_noiseon_01": {
+        "pred": "red_green",
+        "true": "red_green"
+      },
+      "red_green_noiseon_02": {
+        "pred": "red_green",
+        "true": "red_green"
+      },
+      "red_green_noiseon_03": {
+        "pred": "red_green",
+        "true": "red_green"
+      },
+      "table_cleaning_noiseoff_01": {
+        "pred": "table_cleaning",
+        "true": "table_cleaning"
+      },
+      "table_cleaning_noiseoff_02": {
+        "pred": "table_cleaning",
+        "true": "table_cleaning"
+      },
+      "table_cleaning_noiseoff_03": {
+        "pred": "table_cleaning",
+        "true": "table_cleaning"
+      },
+      "table_cleaning_noiseon_01": {
+        "pred": "put_sizes",
+        "true": "table_cleaning"
+      },
+      "table_cleaning_noiseon_02": {
+        "pred": "table_cleaning",
+        "true": "table_cleaning"
+      },
+      "table_cleaning_noiseon_03": {
+        "pred": "table_cleaning",
+        "true": "table_cleaning"
+      }
+    }
+  },
+  "ast": {
+    "silhouette_action": 0.06266684776033585,
+    "silhouette_clip": 0.01872089935825365,
+    "loco_window_acc": 0.7394636015325671,
+    "loco_clip_acc": 0.8333333333333334,
+    "perm_mean": 0.3293055555555555,
+    "perm_p95": 0.6111111111111112,
+    "perm_max": 0.8333333333333334,
+    "p_value": 0.0005,
+    "per_clip": {
+      "put_sizes_noiseoff_01": {
+        "pred": "put_sizes",
+        "true": "put_sizes"
+      },
+      "put_sizes_noiseoff_02": {
+        "pred": "put_sizes",
+        "true": "put_sizes"
+      },
+      "put_sizes_noiseoff_03": {
+        "pred": "put_sizes",
+        "true": "put_sizes"
+      },
+      "put_sizes_noiseon_01": {
+        "pred": "put_sizes",
+        "true": "put_sizes"
+      },
+      "put_sizes_noiseon_02": {
+        "pred": "put_sizes",
+        "true": "put_sizes"
+      },
+      "put_sizes_noiseon_03": {
+        "pred": "put_sizes",
+        "true": "put_sizes"
+      },
+      "red_green_noiseoff_01": {
+        "pred": "red_green",
+        "true": "red_green"
+      },
+      "red_green_noiseoff_02": {
+        "pred": "red_green",
+        "true": "red_green"
+      },
+      "red_green_noiseoff_03": {
+        "pred": "red_green",
+        "true": "red_green"
+      },
+      "red_green_noiseon_01": {
+        "pred": "put_sizes",
+        "true": "red_green"
+      },
+      "red_green_noiseon_02": {
+        "pred": "put_sizes",
+        "true": "red_green"
+      },
+      "red_green_noiseon_03": {
+        "pred": "put_sizes",
+        "true": "red_green"
+      },
+      "table_cleaning_noiseoff_01": {
+        "pred": "table_cleaning",
+        "true": "table_cleaning"
+      },
+      "table_cleaning_noiseoff_02": {
+        "pred": "table_cleaning",
+        "true": "table_cleaning"
+      },
+      "table_cleaning_noiseoff_03": {
+        "pred": "table_cleaning",
+        "true": "table_cleaning"
+      },
+      "table_cleaning_noiseon_01": {
+        "pred": "table_cleaning",
+        "true": "table_cleaning"
+      },
+      "table_cleaning_noiseon_02": {
+        "pred": "table_cleaning",
+        "true": "table_cleaning"
+      },
+      "table_cleaning_noiseon_03": {
+        "pred": "table_cleaning",
+        "true": "table_cleaning"
+      }
+    }
+  }
+}

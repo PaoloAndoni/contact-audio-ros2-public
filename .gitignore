@@ -1,0 +1,46 @@
+# colcon build artifacts (never commit these)
+build/
+install/
+log/
+
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+
+# Editor / OS
+.vscode/
+*.swp
+.DS_Store
+
+# Cross-validation artifacts: fold models and the 345 MB random-AST control
+eval_runs/
+
+# Local data and environments
+.venv/
+.env
+.env.*
+!.env.example
+data/
+bags/
+maniwav_data/
+*.db3
+*.mcap
+*.wav
+*.bag
+*.zarr/
+*.zarr.zip
+*.bak*
+*.aux
+*.blg
+*.bbl
+*.log
+*.out
+*.xdv
+
+# Keep the final report; other generated outputs stay local.
+output/*
+!output/pdf/
+output/pdf/*
+!output/pdf/main.pdf

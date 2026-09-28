@@ -1,0 +1,21 @@
+clip,action,noise,take,sample_rate,channels,duration_s,n_chunks,gaps,gap_ms,overlap_frames,peak_counts,peak_dbfs,used_bits,rms_dbfs,pct_clipped,floor_dbfs,n_events,event_rms_dbfs,event_time_s,snr_db,peak_snr_db,verdict,why
+noise_only_off,noise,only,off,48000,1,15.0,352,0,0.0,0,366,-39.0,8.5,-69.7,0.0,-75.2,1,-48.8,0.08,26.4,31.3,MARGINAL,"peak 366/32768 counts (-39.0 dBFS), ~8.5 bits used; event-to-floor SNR 26.4 dB"
+noise_only_on,noise,only,on,48000,1,15.0,352,0,0.0,0,2809,-21.3,11.5,-47.5,0.0,-68.8,30,-45.7,9.73,23.2,32.9,USABLE,event-to-floor SNR 23.2 dB
+put_sizes_noiseoff_01,put_sizes,noiseoff,01,48000,1,15.0,352,0,0.0,0,5829,-15.0,12.5,-41.0,0.0,-86.9,51,-37.0,6.21,49.9,69.8,USABLE,event-to-floor SNR 49.9 dB
+put_sizes_noiseoff_02,put_sizes,noiseoff,02,48000,1,15.0,352,0,0.0,0,5707,-15.2,12.5,-40.4,0.0,-86.6,45,-37.6,7.72,49.1,69.7,USABLE,event-to-floor SNR 49.1 dB
+put_sizes_noiseoff_03,put_sizes,noiseoff,03,48000,1,15.0,352,0,0.0,0,5658,-15.3,12.5,-40.2,0.0,-87.4,35,-36.1,5.78,51.3,69.9,USABLE,event-to-floor SNR 51.3 dB
+put_sizes_noiseon_01,put_sizes,noiseon,01,48000,1,15.0,352,0,0.0,0,5819,-15.0,12.5,-40.3,0.0,-70.9,23,-38.5,9.91,32.3,54.6,USABLE,event-to-floor SNR 32.3 dB
+put_sizes_noiseon_02,put_sizes,noiseon,02,48000,1,15.0,352,0,0.0,0,5877,-14.9,12.5,-38.3,0.0,-73.3,20,-36.6,10.37,36.7,56.6,USABLE,event-to-floor SNR 36.7 dB
+put_sizes_noiseon_03,put_sizes,noiseon,03,48000,1,15.0,352,0,0.0,0,5756,-15.1,12.5,-41.7,0.0,-72.4,24,-40.5,11.54,31.8,55.5,USABLE,event-to-floor SNR 31.8 dB
+red_green_noiseoff_01,red_green,noiseoff,01,48000,1,15.0,352,0,0.0,0,5938,-14.8,12.5,-41.8,0.0,-74.2,8,-29.6,0.9,44.7,56.8,USABLE,event-to-floor SNR 44.7 dB
+red_green_noiseoff_02,red_green,noiseoff,02,48000,1,15.0,352,0,0.0,0,6038,-14.7,12.6,-37.9,0.0,-74.4,8,-26.5,1.09,47.9,57.3,USABLE,event-to-floor SNR 47.9 dB
+red_green_noiseoff_03,red_green,noiseoff,03,48000,1,15.0,352,0,0.0,0,6097,-14.6,12.6,-41.2,0.0,-74.3,7,-28.2,0.76,46.1,57.4,USABLE,event-to-floor SNR 46.1 dB
+red_green_noiseon_01,red_green,noiseon,01,48000,1,15.0,352,0,0.0,0,6069,-14.6,12.6,-36.6,0.0,-68.6,26,-35.5,11.49,33.1,51.5,USABLE,event-to-floor SNR 33.1 dB
+red_green_noiseon_02,red_green,noiseon,02,48000,1,15.0,352,0,0.0,0,6061,-14.7,12.6,-37.9,0.0,-65.9,15,-37.0,12.17,28.9,48.9,USABLE,event-to-floor SNR 28.9 dB
+red_green_noiseon_03,red_green,noiseon,03,48000,1,15.0,352,0,0.0,0,5575,-15.4,12.4,-39.5,0.0,-62.7,30,-37.8,10.2,24.9,34.6,USABLE,event-to-floor SNR 24.9 dB
+table_cleaning_noiseoff_01,table_cleaning,noiseoff,01,48000,1,15.0,352,0,0.0,0,5615,-15.3,12.5,-48.5,0.0,-74.5,56,-47.5,11.54,27.0,45.3,USABLE,event-to-floor SNR 27.0 dB
+table_cleaning_noiseoff_02,table_cleaning,noiseoff,02,48000,1,15.0,352,0,0.0,0,1587,-26.3,10.6,-57.7,0.0,-77.5,66,-55.5,9.03,22.0,38.7,USABLE,event-to-floor SNR 22.0 dB
+table_cleaning_noiseoff_03,table_cleaning,noiseoff,03,48000,1,15.0,352,0,0.0,0,4438,-17.4,12.1,-57.1,0.0,-76.2,71,-54.7,9.11,21.5,39.7,USABLE,event-to-floor SNR 21.5 dB
+table_cleaning_noiseon_01,table_cleaning,noiseon,01,48000,1,15.0,352,0,0.0,0,826,-32.0,9.7,-55.0,0.0,-72.8,47,-53.9,11.65,18.9,33.2,USABLE,event-to-floor SNR 18.9 dB
+table_cleaning_noiseon_02,table_cleaning,noiseon,02,48000,1,15.0,352,0,0.0,0,5500,-15.5,12.4,-53.6,0.0,-72.4,60,-52.1,10.87,20.3,38.6,USABLE,event-to-floor SNR 20.3 dB
+table_cleaning_noiseon_03,table_cleaning,noiseon,03,48000,1,15.0,352,0,0.0,0,5496,-15.5,12.4,-50.2,0.0,-70.7,39,-48.9,11.37,21.8,39.2,USABLE,event-to-floor SNR 21.8 dB

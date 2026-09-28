@@ -1,0 +1,68 @@
+{
+  "table_cleaning_noiseoff_01": {
+    "verdict": "USABLE",
+    "peak_counts": 5615,
+    "peak_dbfs": -15.322003487244826,
+    "clip_sigma": 123.35430218093772,
+    "n_events": 56,
+    "duration": 15.0,
+    "ylim": 6457.249999999999,
+    "n_mel": 128,
+    "n_frames": 1498
+  },
+  "table_cleaning_noiseon_02": {
+    "verdict": "USABLE",
+    "peak_counts": 5500,
+    "peak_dbfs": -15.50174490930948,
+    "clip_sigma": 68.68512327861752,
+    "n_events": 60,
+    "duration": 15.0,
+    "ylim": 6324.999999999999,
+    "n_mel": 128,
+    "n_frames": 1498
+  },
+  "put_sizes_noiseoff_01": {
+    "verdict": "USABLE",
+    "peak_counts": 5829,
+    "peak_dbfs": -14.99711759280546,
+    "clip_sigma": 293.54081956069444,
+    "n_events": 51,
+    "duration": 15.0,
+    "ylim": 6703.349999999999,
+    "n_mel": 128,
+    "n_frames": 1498
+  },
+  "put_sizes_noiseon_01": {
+    "verdict": "USABLE",
+    "peak_counts": 5819,
+    "peak_dbfs": -15.012031555326143,
+    "clip_sigma": 315.5579733340442,
+    "n_events": 23,
+    "duration": 15.0,
+    "ylim": 6691.849999999999,
+    "n_mel": 128,
+    "n_frames": 1498
+  },
+  "red_green_noiseoff_01": {
+    "verdict": "USABLE",
+    "peak_counts": 5938,
+    "peak_dbfs": -14.83619483399384,
+    "clip_sigma": 267.2688394934409,
+    "n_events": 8,
+    "duration": 15.0,
+    "ylim": 6828.7,
+    "n_mel": 128,
+    "n_frames": 1498
+  },
+  "red_green_noiseon_01": {
+    "verdict": "USABLE",
+    "peak_counts": 6069,
+    "peak_dbfs": -14.646655949385018,
+    "clip_sigma": 482.462135798294,
+    "n_events": 26,
+    "duration": 15.0,
+    "ylim": 6979.349999999999,
+    "n_mel": 128,
+    "n_frames": 1498
+  }
+}

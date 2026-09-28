@@ -1,0 +1,34 @@
+# Phase 3 (ast_encoder_node) ML dependencies.
+#
+# These are pip-managed: torch/torchaudio CPU wheels are not available via
+# rosdep/apt, so they are intentionally NOT declared in package.xml. Install
+# them into the same Python that runs ROS 2 (system python3 on Ubuntu 24.04):
+#
+#   python3 -m pip install --user --break-system-packages \
+#     --index-url https://download.pytorch.org/whl/cpu torch torchaudio
+#   python3 -m pip install --user --break-system-packages transformers
+#
+# Note: torch declares setuptools>=77 but runs fine on setuptools<72, which
+# colcon's test runner needs:
+#   python3 -m pip install --user --break-system-packages "setuptools<72"
+#
+# The AST model is downloaded on first run and cached in ~/.cache/huggingface.
+
+torch
+torchaudio
+transformers
+
+# Model bundles persist encoder weights as SafeTensors. torch.load is never used,
+# because it executes pickle and a bundle is a file that gets copied between
+# machines. It ships with transformers today, but the bundle format depends on it
+# directly, so it is declared rather than assumed.
+safetensors
+
+# --- Phase 5 (audio_capture_node) live microphone ---
+# sounddevice is the pip binding; PortAudio itself is a SYSTEM library it needs:
+#   sudo apt install -y libportaudio2
+#   pip install --user --break-system-packages sounddevice
+# In WSL2 the mic also needs WSLg audio passthrough (Windows 11); on the lab
+# machine with the contact mic it works natively. audio_capture_node exits with a
+# clear message (not a traceback) if PortAudio is missing.
+sounddevice

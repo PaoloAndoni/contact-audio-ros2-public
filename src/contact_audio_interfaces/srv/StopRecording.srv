@@ -1,0 +1,5 @@
+# Stop the active dataset recording run.
+---
+bool success
+uint32 windows_recorded
+string message

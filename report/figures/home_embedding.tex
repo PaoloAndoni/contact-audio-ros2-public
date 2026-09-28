@@ -1,0 +1,27 @@
+% Keep the original scatter plots. Typeset readable, corrected labels in LaTeX.
+% The 4050 x 1440 pixel source is 300 dpi. Trim only its old titles and legend.
+\begin{minipage}[t]{0.32\textwidth}
+  \centering\sffamily\small
+  \textbf{CNN}\\
+  9/18 correct; \(p=0.164\)
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\textwidth}
+  \centering\sffamily\small
+  \textbf{Mel statistics}\\
+  10/18 correct; \(p=0.090\)
+\end{minipage}\hfill
+\begin{minipage}[t]{0.32\textwidth}
+  \centering\sffamily\small
+  \textbf{AST}\\
+  15/18 correct; \(p\approx0.001\)
+\end{minipage}
+\par\smallskip
+\includegraphics[width=\textwidth,trim=0bp 57.6bp 0bp 72bp,clip]{figures/home_embedding.png}
+\par\smallskip
+{\small
+  \tikz[baseline=-0.5ex]{\fill[TCBlue] (0,0) circle (1.5pt);}\ \code{put_sizes}
+  \qquad
+  \tikz[baseline=-0.5ex]{\fill[TCOrange] (0,0) rectangle (3pt,3pt);}\ \code{red_green}
+  \qquad
+  \tikz[baseline=-0.5ex]{\fill[TCGreen] (0,0) -- (3.5pt,0) -- (1.75pt,3.5pt) -- cycle;}\ \code{table_cleaning}
+}

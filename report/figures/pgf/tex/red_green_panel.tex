@@ -1,0 +1,79 @@
+\begin{tikzpicture}[x=1cm,y=1cm]
+
+  \node[anchor=south west, font=\bfseries] at (0.00,1.05) {Peg in hole: sound example --- noise off vs.\ noise on};
+
+  \begin{axis}[
+    at={(0.00cm,0cm)}, anchor=north west,
+    width=6.55cm, height=2.90cm,
+    xmin=0, xmax=15.00, ymin=-6829, ymax=6829,
+    title={\texttt{\scriptsize red\_green\_noiseoff\_01}\\[1pt]
+      \scriptsize USABLE\ \textperiodcentered\ peak 5938~cts (-14.8~dBFS) \textperiodcentered\ clip $\sigma = $267.3~cts},
+    title style={align=left, font=\scriptsize, at={(0,1.04)}, anchor=south west},
+    ylabel={amplitude (counts)}, xlabel={}, xticklabels=\empty,
+    tick label style={font=\scriptsize}, label style={font=\scriptsize},
+    axis line style={black!55}, tick style={black!55},
+    no markers,
+  ]
+    \addplot[fill=black!8, draw=none] coordinates
+      {(0,-1603.6) (15.00,-1603.6) (15.00,1603.6) (0,1603.6)} -- cycle;
+    \addplot[TCOrange, line width=0.2pt] table {figures/pgf/dat/red_green_noiseoff_01_wave.dat};
+    \node[anchor=north east, font=\tiny, text=black!45] at (rel axis cs:0.99,0.98)
+      {$\pm6\sigma$ band (21\% of full scale shown)};
+  \end{axis}
+
+  \begin{axis}[
+    at={(0.00cm,-3.10cm)}, anchor=north west,
+    width=6.55cm, height=3.70cm,
+    xmin=0, xmax=15.00, ymin=0, ymax=128,
+    xlabel={time (s)}, ylabel={mel bin},
+    tick label style={font=\scriptsize}, label style={font=\scriptsize},
+    axis line style={black!55}, tick style={black!55},
+    enlargelimits=false, no markers,
+    colormap name=magma, point meta min=-68, point meta max=-30,
+  ]
+    \addplot graphics [xmin=0,xmax=15.00,ymin=0,ymax=128]
+      {figures/pgf/heat/red_green_noiseoff_01_heat.png};
+    \addplot[TCOrange, line width=1.0pt, unbounded coords=jump] table {figures/pgf/dat/red_green_noiseoff_01_events.dat};
+    \node[anchor=north west, font=\tiny, text=white, fill=black, fill opacity=0.55,
+      text opacity=1, inner sep=1.5pt] at (rel axis cs:0.01,0.98)
+      {8 detected event(s)};
+  \end{axis}
+
+  \begin{axis}[
+    at={(8.10cm,0cm)}, anchor=north west,
+    width=6.55cm, height=2.90cm,
+    xmin=0, xmax=15.00, ymin=-6979, ymax=6979,
+    title={\texttt{\scriptsize red\_green\_noiseon\_01}\\[1pt]
+      \scriptsize USABLE\ \textperiodcentered\ peak 6069~cts (-14.6~dBFS) \textperiodcentered\ clip $\sigma = $482.5~cts},
+    title style={align=left, font=\scriptsize, at={(0,1.04)}, anchor=south west},
+    ylabel={}, xlabel={}, xticklabels=\empty,
+    tick label style={font=\scriptsize}, label style={font=\scriptsize},
+    axis line style={black!55}, tick style={black!55},
+    no markers,
+  ]
+    \addplot[fill=black!8, draw=none] coordinates
+      {(0,-2894.8) (15.00,-2894.8) (15.00,2894.8) (0,2894.8)} -- cycle;
+    \addplot[TCOrange, line width=0.2pt] table {figures/pgf/dat/red_green_noiseon_01_wave.dat};
+    \node[anchor=north east, font=\tiny, text=black!45] at (rel axis cs:0.99,0.98)
+      {$\pm6\sigma$ band (21\% of full scale shown)};
+  \end{axis}
+
+  \begin{axis}[
+    at={(8.10cm,-3.10cm)}, anchor=north west,
+    width=6.55cm, height=3.70cm,
+    xmin=0, xmax=15.00, ymin=0, ymax=128,
+    xlabel={time (s)}, ylabel={},
+    tick label style={font=\scriptsize}, label style={font=\scriptsize},
+    axis line style={black!55}, tick style={black!55},
+    enlargelimits=false, no markers,
+    colormap name=magma, point meta min=-68, point meta max=-30, colorbar, colorbar style={width=0.28cm, tick label style={font=\scriptsize}, ylabel={dB}, ylabel style={font=\scriptsize, yshift=-2mm}, ytick={-70,-60,-50,-40,-30}},
+  ]
+    \addplot graphics [xmin=0,xmax=15.00,ymin=0,ymax=128]
+      {figures/pgf/heat/red_green_noiseon_01_heat.png};
+    \addplot[TCOrange, line width=1.0pt, unbounded coords=jump] table {figures/pgf/dat/red_green_noiseon_01_events.dat};
+    \node[anchor=north west, font=\tiny, text=white, fill=black, fill opacity=0.55,
+      text opacity=1, inner sep=1.5pt] at (rel axis cs:0.01,0.98)
+      {26 detected event(s)};
+  \end{axis}
+
+\end{tikzpicture}
